@@ -14,7 +14,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run Stuff
         run: |
-          brew install oras
+          curl -LO https://github.com/oras-project/oras/releases/download/v0.16.0/oras_0.16.0_linux_amd64.tar.gz
+          mkdir -p oras-install/
+          tar -zxf oras_0.16.0_*.tar.gz -C oras-install/
+          mv oras-install/oras /usr/local/bin/
+          rm -rf oras_0.16.0_*.tar.gz oras-install/
           oras version
           echo ${{ github.token }} | oras login ghcr.io -u ${{ github.actor }} --password-stdin
           REPOSITORY=$(echo ${{ github.repository }} | tr '[A-Z]' '[a-z]')
